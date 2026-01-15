@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import urllib.parse
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -69,8 +70,11 @@ def create_badge_cell(repo, branch, file_path):
     """
     Creates a new Markdown cell containing ONLY the badge.
     """
+    # Encode branch for URL safety (e.g. 'feature/x' -> 'feature%2Fx')
+    encoded_branch = urllib.parse.quote(branch, safe='')
+
     # Construct the dynamic URL
-    colab_url = f"https://colab.research.google.com/github/{repo}/blob/{branch}/{file_path}"
+    colab_url = f"https://colab.research.google.com/github/{repo}/blob/{encoded_branch}/{file_path}"
     image_url = "https://colab.research.google.com/assets/colab-badge.svg"
     
     # HTML format as requested
