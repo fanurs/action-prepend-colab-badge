@@ -1,0 +1,24 @@
+name: 'Prepend Colab Badge'
+description: 'Prepends a Google Colab badge to the first cell of Jupyter Notebooks'
+inputs:
+  files:
+    description: 'Glob pattern or list of .ipynb files to update'
+    required: true
+    default: '*.ipynb'
+  repository:
+    description: 'The target GitHub repository (username/repo)'
+    required: false
+    default: ${{ github.repository }}
+  branch:
+    description: 'The target git branch'
+    required: false
+    default: ${{ github.head_ref || github.ref_name }}
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        python ${{ github.action_path }}/prepend_badge.py \
+          --repo "${{ inputs.repository }}" \
+          --branch "${{ inputs.branch }}" \
+          ${{ inputs.files }}
+      shell: bash
