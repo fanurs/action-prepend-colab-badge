@@ -17,7 +17,7 @@ runs:
   using: "composite"
   steps:
     - run: |
-        python ${{ github.action_path }}/prepend_badge.py \
+        python ${{ github.action_path }}/convert.py \
           --repo "${{ inputs.repository }}" \
           --branch "${{ inputs.branch }}" \
           ${{ inputs.files }}
